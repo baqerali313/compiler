@@ -1,0 +1,38 @@
+def categorize_character(char):
+    if char.isalpha():
+        return "Letter"
+    elif char.isdigit():
+        return "Number"
+    elif char.isspace():
+        return "Space"
+    else:
+        return "Symbol"
+
+def separate_text_sequences(text):
+    characters = list(text)
+    sequences = []
+    current_sequence = []
+
+    for char in characters:
+        char_type = categorize_character(char)
+
+        if current_sequence and categorize_character(current_sequence[-1]) != char_type:
+            sequences.append((categorize_character(current_sequence[-1]), ''.join(current_sequence)))
+            current_sequence = [char]
+        else:
+            current_sequence.append(char)
+
+    if current_sequence:
+        sequences.append((categorize_character(current_sequence[-1]), ''.join(current_sequence)))
+
+    return sequences
+
+def main():
+    sentence = input("Enter Sentence: ")
+    sequences_result = separate_text_sequences(sentence)
+
+    for char_type, sequence in sequences_result:
+        print(f"{char_type}: {sequence}")
+
+if __name__ == "__main__":
+    main()
